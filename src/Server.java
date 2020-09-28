@@ -36,14 +36,16 @@ public class Server implements Runnable{    // runnable to make multiple threads
                                                                     // using BufferedReader object
                 System.out.println("Received: \t"+ message);    // just for checking on console
                                                                 // if message received (optional)
-// TODO: Remove sender from broadcast list.
                 // broadcasting streamed message all client stored in vector
                 for (int i=0; i<client.size(); i++){
                     BufferedWriter bWriter = client.get(i); // getting all clients into BufferedWriter.
-                    // NOTE: here client is BufferedWriter type vector as declared so we can store it into
-                    //       BufferedWriter object otherwise we have to type cast client as BufferedWrite
-                    bWriter.write(message+"\n");    // sending or broadcasting message
-                    bWriter.flush();    // flushing message as characters into stream to reach destination(s).
+// NOTE: here client is BufferedWriter type vector as declared so we can store it into
+//       BufferedWriter object otherwise we have to type cast client as BufferedWrite
+
+                    if (bWriter != bufferedWriter){ // to remove sender from broadcast list.
+                        bWriter.write(message+"\n");    // sending or broadcasting message
+                        bWriter.flush();    // flushing message as characters into stream to reach destination(s).
+                    }
                 }
             }
         } catch (IOException e) {
